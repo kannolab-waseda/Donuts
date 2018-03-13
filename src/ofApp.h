@@ -1,6 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxCv.h"
+#include "ofxOpenCv.h"
+#include "hough_circle.h"
 
 class ofApp : public ofBaseApp{
 
@@ -21,4 +24,5 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+    hough_circle hCircle;
 };

@@ -229,7 +229,7 @@
 		D29DD28C195CD81267F3C8A1 /* Distance.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Distance.h; path = ../../../addons/ofxCv/libs/ofxCv/include/ofxCv/Distance.h; sourceTree = SOURCE_ROOT; };
 		D2E468A43F6E981DD9B460B5 /* stitcher.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stitcher.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/stitcher.hpp; sourceTree = SOURCE_ROOT; };
 		D30DA9FD2057A19C001D04E6 /* hough_circle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hough_circle.cpp; sourceTree = "<group>"; };
-		D30DA9FE2057A19C001D04E6 /* hough_circle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = hough_circle.hpp; sourceTree = "<group>"; };
+		D30DA9FE2057A19C001D04E6 /* hough_circle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hough_circle.h; sourceTree = "<group>"; };
 		D347FB65D19015303863922A /* Wrappers.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Wrappers.cpp; path = ../../../addons/ofxCv/libs/ofxCv/src/Wrappers.cpp; sourceTree = SOURCE_ROOT; };
 		D5A3AFF36064B2CACAD31716 /* composite_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = composite_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/composite_index.h; sourceTree = SOURCE_ROOT; };
 		D5BB6F0357B6422E1B1656B4 /* ofxCvColorImage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCvColorImage.h; path = ../../../addons/ofxOpenCv/src/ofxCvColorImage.h; sourceTree = SOURCE_ROOT; };
@@ -820,7 +820,7 @@
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				D30DA9FD2057A19C001D04E6 /* hough_circle.cpp */,
-				D30DA9FE2057A19C001D04E6 /* hough_circle.hpp */,
+				D30DA9FE2057A19C001D04E6 /* hough_circle.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 			);
