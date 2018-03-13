@@ -43,7 +43,7 @@ void hough_circle::draw(){
         ofSetColor(255, 0, 0);
         ofNoFill();
         ofSetLineWidth(2);
-        ofDrawCircle(cvRound(p[0]), cvRound(p[1]), cvRound(p[3]));
+        ofDrawCircle(cvRound(p[0]), cvRound(p[1]), cvRound(p[2]));
     }
     ofPopStyle();
 }
