@@ -77,6 +77,7 @@ void soundMidi::update() {
 void soundMidi::draw() {
     
     // let's see something
+    ofPushStyle();
     ofSetColor(0);
     stringstream text;
     text << "connected to port " << midiOut.getPort()
@@ -90,7 +91,8 @@ void soundMidi::draw() {
     << "bend(Low Pass Cut Off): " << bend << endl
     << "touch: " << touch << endl
     << "polytouch: " << polytouch;
-    ofDrawBitmapString(text.str(), 20, 20);
+    ofDrawBitmapString(text.str(), 660, 20);
+    ofPopStyle();
 }
 
 //--------------------------------------------------------------
