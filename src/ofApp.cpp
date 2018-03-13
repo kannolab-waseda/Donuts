@@ -3,28 +3,39 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     hCircle.setup();  //カメラの設定
+    
+    sMidi.setup();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     hCircle.update(); //カメラの更新及びハフ変換による円検出
 
+    sMidi.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    
+    sMidi.draw();
     hCircle.draw();  //カメラの画像及び検出された円の描画
 
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+void ofApp::exit() {
+    sMidi.exit();
+    
+}
 
+//--------------------------------------------------------------
+void ofApp::keyPressed(int key){
+    sMidi.keyPressed(key);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
+    sMidi.keyReleased(key);
 }
 
 //--------------------------------------------------------------
@@ -34,7 +45,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+    sMidi.mouseDragged(x, y, button);
 }
 
 //--------------------------------------------------------------
