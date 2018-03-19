@@ -109,12 +109,10 @@ void soundMidi::keyReleased(int key) {
 
         case 'c':
             executeCutOff(); //カットオフする
-            turnDownVolume();
             break;
             
-        case 'v': //カットオフを戻す
-            stopCutOff();
-            turnBackVolume();
+        case 'v':
+            stopCutOff(); //カットオフを戻す
             break;
 
     }
@@ -150,28 +148,28 @@ void soundMidi::mouseReleased() {
 }
 
 
-//自作関数
-
 /*カットオフを実行*/
 void soundMidi::executeCutOff() {
-    //この関数ではフラグを立てるだけで、実際の制御自体はupdate内でやっている。
+    //注意！この関数ではフラグを立てるだけで、実際の制御自体はupdate内でやっている。
+            printf("ok");
+    //カットオフする
     bend = cutOffFreqMax;
     executeCutOffFg = true;
-}
-
-//カットオフ無しに変更
-void soundMidi::stopCutOff() {
-    midiOut.sendPitchBend(channel, 16000);//カットオフ周波数を最大に戻す
-    executeCutOffFg = false;
-    //    midiOut.sendControlChange(1, 84, 1);//カットオフ自体を戻す 追記：これは制御しなくてもオンオフになるっぽいからいいんじゃね
-}
-
-void soundMidi::turnDownVolume() {
+    
+    //ボリュームも下げる
     masterVolume = masterVolumeMax;
     executeTurnDownVolumeFg = true;
 }
 
-void soundMidi::turnBackVolume() {
+//カットオフ無しに変更
+void soundMidi::stopCutOff() {
+    //カットオフ周波数を最大に戻す
+    midiOut.sendPitchBend(channel, 16000);
+    executeCutOffFg = false;
+    //    midiOut.sendControlChange(1, 84, 1);//カットオフ自体を戻す
+    //追記：これは制御しなくてもオンオフになるっぽいからいいんじゃね
+
+    //ボリュームを戻す
     masterVolume = masterVolumeMax;
     midiOut.sendControlChange(1,21, masterVolume);
     executeTurnDownVolumeFg = false;

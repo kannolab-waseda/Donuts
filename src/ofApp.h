@@ -35,6 +35,8 @@ public:
     hough_circle hCircle;
     soundMidi sMidi;
     
+    int state; //状態 (0:ドーナツ作り中、1:ドーナツ完成)
+    
     //プロジェクションマッピングウィンドウとのデータ送受信用
     shared_ptr<pmApp> pm;
     
