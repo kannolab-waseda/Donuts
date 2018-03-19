@@ -5,12 +5,12 @@
 //  Created by 634.nakajima on 2018/03/19.
 //
 
-#include "pmApp.hpp"
+#include "pmApp.h"
 
 void pmApp::setup(){
-    ofSetWindowPosition(1441, 0);
+    //ofSetWindowPosition(1441, 0);
     ofBackground(255, 255, 255);
-    ofSetFrameRate( 60 );
+    //ofSetFrameRate( 60 );
     ofSetVerticalSync( true );
     ofEnableSmoothing();
     
@@ -104,7 +104,6 @@ void pmApp::draw(){
             
         }
     }
-    
 }
 
 //--------------------------------------------------------------

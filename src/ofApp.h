@@ -9,9 +9,6 @@
 #include "ofxMidi.h"
 #include "soundMidi.h"
 
-//プロジェクションマッピング用ウィンドウ
-#include "pmApp.hpp"
-
 class ofApp : public ofBaseApp{
 
 public:
@@ -36,8 +33,4 @@ public:
     soundMidi sMidi;
     
     int state; //状態 (0:ドーナツ作り中、1:ドーナツ完成)
-    
-    //プロジェクションマッピングウィンドウとのデータ送受信用
-    //shared_ptr<pmApp> pm;
-    
 };

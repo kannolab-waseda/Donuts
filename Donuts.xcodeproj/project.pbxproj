@@ -106,7 +106,7 @@
 		20FDA57DD184CC3873196C02 /* soundMidi.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = soundMidi.cpp; path = src/soundMidi.cpp; sourceTree = SOURCE_ROOT; };
 		2411F6B35DAAAE5083D51167 /* motion_estimators.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = motion_estimators.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/detail/motion_estimators.hpp; sourceTree = SOURCE_ROOT; };
 		25B6FF15205F87CB0013E40A /* pmApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pmApp.cpp; sourceTree = "<group>"; };
-		25B6FF16205F87CB0013E40A /* pmApp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pmApp.hpp; sourceTree = "<group>"; };
+		25B6FF16205F87CB0013E40A /* pmApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pmApp.h; sourceTree = "<group>"; };
 		26E4EEE253C8A6EFC3B3A639 /* warpers.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = warpers.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/stitching/detail/warpers.hpp; sourceTree = SOURCE_ROOT; };
 		293D553B5067FBB8DEFA84D9 /* cap_ios.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = cap_ios.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/highgui/cap_ios.h; sourceTree = SOURCE_ROOT; };
 		2B75A06D9EF1817256BA26F6 /* type_traits_detail.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = type_traits_detail.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gpu/device/detail/type_traits_detail.hpp; sourceTree = SOURCE_ROOT; };
@@ -970,7 +970,7 @@
 				20FDA57DD184CC3873196C02 /* soundMidi.cpp */,
 				D6E9B00EA8CD00F2ED24A7D8 /* soundMidi.h */,
 				25B6FF15205F87CB0013E40A /* pmApp.cpp */,
-				25B6FF16205F87CB0013E40A /* pmApp.hpp */,
+				25B6FF16205F87CB0013E40A /* pmApp.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

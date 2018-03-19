@@ -1,12 +1,4 @@
-//
-//  pmApp.hpp
-//  Donuts
-//
-//  Created by 634.nakajima on 2018/03/19.
-//
-
-#ifndef pmApp_hpp
-#define pmApp_hpp
+#pragma once
 
 #include "ofMain.h"
 #include "hough_circle.h"
@@ -53,10 +45,6 @@ public:
     vector<int> ww;
     vector<int> hh;
     int mouseCount;
-    //ここにプロジェクションマッピング用変数，関数を追加
     shared_ptr<ofApp> of;
     
 };
-
-
-#endif /* pmApp_hpp */

@@ -83,7 +83,7 @@ void soundMidi::draw() {
     << "Press 'c' to execute Cut Off " << endl
     << "Press 'v' to reset Cut Off " << endl;
 
-    ofDrawBitmapString(text.str(), 660, 20);
+    ofDrawBitmapString(text.str(), 50, 740);
     ofPopStyle();
 }
 
