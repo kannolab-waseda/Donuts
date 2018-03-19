@@ -10,8 +10,8 @@
 void hough_circle::setup(){
     camera.setDeviceID(0);  //カメラデバイスの設定　内蔵カメラを使用するときは0，USBカメラなどを外部機器使うときは1
     camera.setVerbose(true);
-    w = 640;
-    h = 480;
+    w = 1280;
+    h = 720;
     camera.setup(w, h);
     cap = cvCreateCameraCapture(0);//setDeviceIDの引数と同じ
     
