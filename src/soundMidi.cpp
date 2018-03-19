@@ -2,8 +2,6 @@
 //  soundMidi.cpp
 //  midiOutputExample
 //
-//  Created by 丸山雅裕 on 2018/03/13.
-//
 
 #include "soundMidi.h"
 #include "ofApp.h"
