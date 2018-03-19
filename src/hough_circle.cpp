@@ -33,7 +33,7 @@ void hough_circle::update(){
     
     int sMax = 5;  //sMax秒以上円が検出されないとタイマーリセット
     int sMin = 3;  //sMin秒以上断続的に円が検出され続けるとスイッチをオンにする
-    
+    if (cSwitch == false) {
     if(circles->total == 1){
         int now = ofGetElapsedTimef();
         if (now - cTimer >= sMax) {
@@ -51,6 +51,7 @@ void hough_circle::update(){
         }
         cSwitch = false;
         
+    }
     }
     
 }
@@ -73,7 +74,6 @@ void hough_circle::draw(){
     
     if(cSwitch == true){
         printf("circle is founded \n");
-        cSwitch = false;
     }
    // printf("%d \n",circles->total);
 
