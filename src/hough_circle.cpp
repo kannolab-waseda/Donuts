@@ -18,6 +18,7 @@ void hough_circle::setup(){
     cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_WIDTH,w);
     cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_HEIGHT, h);
     cTimer = 0;
+    dTimer = 0;
     cSwitch = false;
 }
 
@@ -31,23 +32,25 @@ void hough_circle::update(){
     storage = cvCreateMemStorage (0);
     circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 30, 80, 20,25);
     
-    int sMax = 5;  //sMax秒以上円が検出されないとタイマーリセット
+    int resetTime = 5;
+    int dMax = 2;  //dMax秒以上円が検出されないとタイマーリセット
     int sMin = 3;  //sMin秒以上断続的に円が検出され続けるとスイッチをオンにする
     if (cSwitch == false) {
     if(circles->total == 1){
         int now = ofGetElapsedTimef();
-        if (now - cTimer >= sMax) {
+        if (now - cTimer > resetTime) {
             cTimer = ofGetElapsedTimef();
-        }else if(now - cTimer < sMax && now-cTimer>=sMin){
+        }else if(now-cTimer>=sMin){
             cSwitch = true;
             cTimer = 0;
         }
         
     }else{
         int now = ofGetElapsedTimef();
-        if (now-cTimer >=sMax) {
-            cTimer = ofGetElapsedTimef();
+        if (now-cTimer > dMax) {
+            cTimer = 0;
         }
+      
     }
     }
     
@@ -68,12 +71,15 @@ void hough_circle::draw(){
         ofSetLineWidth(2);
         ofDrawCircle(cvRound(p[0]), cvRound(p[1]), cvRound(p[2]));
     }
-    
-    if(cSwitch == true){
-        printf("circle is founded \n");
-    }
    // printf("%d \n",circles->total);
 
+    ofPopStyle();
+    ofPushStyle();
+    if(cSwitch == true){
+        // printf("circle is founded \n");
+        ofSetColor(0, 0, 255);
+        ofDrawCircle(10,500, 10);
+    }
     ofPopStyle();
 
 }

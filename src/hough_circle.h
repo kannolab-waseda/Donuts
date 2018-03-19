@@ -33,7 +33,7 @@ public:
     CvMemStorage *storage;
     CvSeq *circles = 0;
     CvSeq *precircles = 0;
-    int cTimer;
+    int cTimer ,dTimer;
     bool cSwitch; //円検出のスイッチ。他のクラスやメインのプログラムで使いたいときはhCircle.cSwitchで呼び出す
     
 };
