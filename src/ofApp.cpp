@@ -10,7 +10,6 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     hCircle.update(); //カメラの更新及びハフ変換による円検出
-
     sMidi.update();
 }
 

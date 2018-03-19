@@ -30,19 +30,23 @@ void hough_circle::update(){
     cvSmooth(gray_img, gray_img, CV_GAUSSIAN, 11, 11, 0,0);
     storage = cvCreateMemStorage (0);
     circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 30, 80, 20,25);
+    
+    int sMax = 5;  //sMax秒以上円が検出されないとタイマーリセット
+    int sMin = 3;  //sMin秒以上断続的に円が検出され続けるとスイッチをオンにする
+    
     if(circles->total == 1){
         int now = ofGetElapsedTimef();
-        if (now - cTimer >= 5) {
+        if (now - cTimer >= sMax) {
             cTimer = ofGetElapsedTimef();
             cSwitch = false;
-        }else if(now - cTimer < 5 && now-cTimer>=3){
+        }else if(now - cTimer < sMax && now-cTimer>=sMin){
             cSwitch = true;
             cTimer = 0;
         }
         
     }else{
         int now = ofGetElapsedTimef();
-        if (now-cTimer >=5) {
+        if (now-cTimer >=sMax) {
             cTimer = ofGetElapsedTimef();
         }
         cSwitch = false;
