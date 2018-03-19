@@ -8,12 +8,13 @@
 #include "hough_circle.h"
 //--------------------------------------------------------------
 void hough_circle::setup(){
-    camera.setDeviceID(0);  //カメラデバイスの設定
+    camera.setDeviceID(0);  //カメラデバイスの設定　内蔵カメラを使用するときは0，USBカメラなどを外部機器使うときは1
     camera.setVerbose(true);
     w = 640;
     h = 480;
     camera.setup(w, h);
-    cap = cvCreateCameraCapture(0);
+    cap = cvCreateCameraCapture(0);//setDeviceIDの引数と同じ
+    
     cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_WIDTH,w);
     cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_HEIGHT, h);
     cTimer = 0;
@@ -31,16 +32,21 @@ void hough_circle::update(){
     circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 30, 80, 20,25);
     if(circles->total == 1){
         int now = ofGetElapsedTimef();
-        if (now - cTimer >= 3 || now-cTimer < 1) {
+        if (now - cTimer >= 5) {
             cTimer = ofGetElapsedTimef();
             cSwitch = false;
-        }else if(now - cTimer < 3 && now-cTimer>=1){
+        }else if(now - cTimer < 5 && now-cTimer>=3){
             cSwitch = true;
             cTimer = 0;
         }
         
     }else{
+        int now = ofGetElapsedTimef();
+        if (now-cTimer >=5) {
+            cTimer = ofGetElapsedTimef();
+        }
         cSwitch = false;
+        
     }
     
 }
@@ -48,7 +54,7 @@ void hough_circle::update(){
 //--------------------------------------------------------------
 void hough_circle::draw(){
     
-    camera.draw(0, 0);
+    camera.draw(0, 0); //カメラからのキャプチャ画像の描画
     ofPushStyle();
     ofSetColor(255);
     for(int i = 0; i< circles->total; i++){
