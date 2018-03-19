@@ -46,8 +46,6 @@ public:
     
     void executeCutOff();
     void stopCutOff();
-    void turnDownVolume();
-    void turnBackVolume();
     /*自作終わり*/
 };
 

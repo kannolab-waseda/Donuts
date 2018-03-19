@@ -5,12 +5,21 @@ void ofApp::setup(){
     hCircle.setup();  //カメラの設定
     
     sMidi.setup();
+    
+    state = 0; 
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+
     hCircle.update(); //カメラの更新及びハフ変換による円検出
     sMidi.update();
+    
+    /*ドーナツ出来たらカットオフ実行の部分*/
+    if(hCircle.cSwitch && state == 0) {
+        state = 1;
+        sMidi.executeCutOff();
+    }
 }
 
 //--------------------------------------------------------------
