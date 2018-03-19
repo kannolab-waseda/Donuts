@@ -9,7 +9,10 @@
 #define pmApp_hpp
 
 #include "ofMain.h"
+#include "hough_circle.h"
+#include "ofApp.h"
 
+class ofApp;
 class pmApp: public ofBaseApp {
 public:
     void setup();
@@ -17,6 +20,7 @@ public:
     void draw();
     
     //ここにプロジェクションマッピング用変数，関数を追加
+    shared_ptr<ofApp> of;
     
 };
 

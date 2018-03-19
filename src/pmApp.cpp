@@ -7,8 +7,6 @@
 
 #include "pmApp.hpp"
 
-//ofApp.cppと同じ使い方
-
 void pmApp::setup(){
 }
 
@@ -17,4 +15,7 @@ void pmApp::update(){
 }
 
 void pmApp::draw(){
+    //"of->hCircle.cSwitch"で穴が空いているかをチェック
+    if(of->hCircle.cSwitch)
+        ofDrawCircle(ofGetWidth()/2, ofGetHeight()/2, 100);
 }

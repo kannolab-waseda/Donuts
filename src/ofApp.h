@@ -36,6 +36,6 @@ public:
     soundMidi sMidi;
     
     //プロジェクションマッピングウィンドウとのデータ送受信用
-    shared_ptr<pmApp> pm;
+    //shared_ptr<pmApp> pm;
     
 };

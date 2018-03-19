@@ -18,13 +18,13 @@ int main( ){
     settings.height = 768;
     settings.setPosition(ofVec2f(0,0));
     settings.resizable = false;
-    shared_ptr<ofAppBaseWindow> guiWindow = ofCreateWindow(settings);
+    shared_ptr<ofAppBaseWindow> pmWindow = ofCreateWindow(settings);
     
     shared_ptr<ofApp> mainApp(new ofApp);
-    shared_ptr<pmApp> pmApp(new class pmApp);
-    mainApp->pm = pmApp;
+    shared_ptr<pmApp> PmApp(new pmApp);
+    PmApp->of = mainApp;
     
-    ofRunApp(guiWindow, pmApp);
+    ofRunApp(pmWindow, PmApp);
     ofRunApp(mainWindow, mainApp);
     ofRunMainLoop();
 }
