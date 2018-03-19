@@ -38,7 +38,6 @@ void hough_circle::update(){
         int now = ofGetElapsedTimef();
         if (now - cTimer >= sMax) {
             cTimer = ofGetElapsedTimef();
-            cSwitch = false;
         }else if(now - cTimer < sMax && now-cTimer>=sMin){
             cSwitch = true;
             cTimer = 0;
@@ -49,8 +48,6 @@ void hough_circle::update(){
         if (now-cTimer >=sMax) {
             cTimer = ofGetElapsedTimef();
         }
-        cSwitch = false;
-        
     }
     }
     
