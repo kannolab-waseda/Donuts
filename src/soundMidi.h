@@ -2,7 +2,6 @@
 //  soundMidi.hpp
 //  midiOutputExample
 //
-//  Created by 丸山雅裕 on 2018/03/13.
 //
 
 #ifndef soundMidi_hpp
