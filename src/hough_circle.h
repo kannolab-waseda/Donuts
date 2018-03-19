@@ -33,6 +33,8 @@ public:
     CvMemStorage *storage;
     CvSeq *circles = 0;
     CvSeq *precircles = 0;
+    int cTimer;
+    bool cSwitch;
     
 };
 

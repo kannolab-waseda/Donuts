@@ -16,6 +16,8 @@ void hough_circle::setup(){
     cap = cvCreateCameraCapture(0);
     cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_WIDTH,w);
     cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_HEIGHT, h);
+    cTimer = 0;
+    cSwitch = false;
 }
 
 //--------------------------------------------------------------
@@ -27,6 +29,19 @@ void hough_circle::update(){
     cvSmooth(gray_img, gray_img, CV_GAUSSIAN, 11, 11, 0,0);
     storage = cvCreateMemStorage (0);
     circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 30, 80, 20,25);
+    if(circles->total == 1){
+        int now = ofGetElapsedTimef();
+        if (now - cTimer >= 3 || now-cTimer < 1) {
+            cTimer = ofGetElapsedTimef();
+            cSwitch = false;
+        }else if(now - cTimer < 3 && now-cTimer>=1){
+            cSwitch = true;
+            cTimer = 0;
+        }
+        
+    }else{
+        cSwitch = false;
+    }
     
 }
 
@@ -45,6 +60,14 @@ void hough_circle::draw(){
         ofSetLineWidth(2);
         ofDrawCircle(cvRound(p[0]), cvRound(p[1]), cvRound(p[2]));
     }
+    
+    if(cSwitch == true){
+        printf("circle is founded \n");
+        cSwitch = false;
+    }
+   // printf("%d \n",circles->total);
+
     ofPopStyle();
+
 }
 
