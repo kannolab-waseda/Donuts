@@ -19,6 +19,7 @@ public:
     void setup();
     void update();
     void draw();
+    void resetHough();
     
     int i;
     float *p;

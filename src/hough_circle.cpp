@@ -84,3 +84,10 @@ void hough_circle::draw(){
 
 }
 
+//-------------------------------------------------------------
+void hough_circle::resetHough(){
+    cSwitch = false;
+    dTimer = 0;
+    cTimer = 0;
+}
+

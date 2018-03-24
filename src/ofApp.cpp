@@ -44,6 +44,7 @@ void ofApp::keyPressed(int key){
     if(key == '0') {
         state = 0;
         sMidi.stopCutOff();
+        hCircle.resetHough();
     }
 }
 
