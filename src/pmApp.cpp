@@ -15,10 +15,10 @@ void pmApp::setup(){
     detected=false;
     display = false;
     drawLine = true;
-    recipe.loadImage("Image/recipeNoWord.jpg");
+    recipe.load("Image/recipeNoWord.jpg");
     for(int i=0;i<4;i++){
-        sprintf(fileName, "Image/text%d.png",i);
-        text[i].loadImage(fileName);
+        sprintf(fileName,"Image/text%d.png",i);
+        text[i].load(fileName);
     }
     for(int i=0;i<4;i++){
         posX[i]=380;
@@ -71,12 +71,11 @@ void pmApp::draw(){
     for (int i=0; i<img.size(); i++) {
         img[i]->grabScreen(lx[i], ly[i], ww[i], hh[i]);
         if(drawLine){
-            ofRect(lx[i], ly[i], ww[i], hh[i]);
+            ofDrawRectangle(lx[i], ly[i], ww[i], hh[i]);
         }
     }
     
     ofSetColor(255, 255, 255);
-    ofFill();
     
     if (display) {
         ofBackground(255, 255, 255);
