@@ -26,8 +26,7 @@ void ofApp::update(){
 void ofApp::draw(){
     
     sMidi.draw();
-    hCircle.draw();  //カメラの画像及び検出された円の描画
-
+    hCircle.draw();//カメラの画像及び検出された円の描画
 }
 
 //--------------------------------------------------------------
@@ -39,7 +38,6 @@ void ofApp::exit() {
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     sMidi.keyPressed(key);
-    
     //キー「0」で状態をリセット
     if(key == '0') {
         state = 0;

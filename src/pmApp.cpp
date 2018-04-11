@@ -11,8 +11,6 @@ void pmApp::setup(){
     ofSetWindowPosition(1441, 0);
     ofBackground(255, 255, 255);
     ofSetFrameRate( 60 );
-    ofSetVerticalSync( true );
-    ofEnableSmoothing();
     
     detected=false;
     display = false;
@@ -32,6 +30,8 @@ void pmApp::setup(){
     textWidth[2]=436;
     textWidth[3]=485;
     
+    goalX=1000;
+    goalY=500;
 }
 
 void pmApp::update(){
@@ -41,6 +41,7 @@ void pmApp::update(){
 }
 
 void pmApp::draw(){
+    ofPushStyle();
     //この中にマッピングされる側のコードを書く
     ofBackground(255);
     recipe.draw(100,100);
@@ -104,7 +105,7 @@ void pmApp::draw(){
             
         }
     }
-    
+    ofPopStyle();
 }
 
 //--------------------------------------------------------------
@@ -112,8 +113,6 @@ void pmApp::keyPressed(int key){
     if(!detected && key == 'q'){
         detected = true;
         for(int i=0;i<4;i++){
-            goalX=1000;
-            goalY=500;
             distanceX[i] = goalX-posX[i];
             distanceY[i] = goalY-posY[i];
         }
@@ -127,37 +126,11 @@ void pmApp::keyPressed(int key){
         
     }
     
-    if( key == 's' ){
-        for (int i=0; i<img.size(); i++) {
-            warper[i]->toggleShow();
-        }
-        
-        if (drawLine) {
-            drawLine = false;
-        }else{
-            drawLine = true;
-        }
-    }
-    
     if (key == 'f')
     {
         ofToggleFullscreen();
     }
     
-    if(key == 'd'){
-        lx.pop_back();
-        ly.pop_back();
-        ww.pop_back();
-        hh.pop_back();
-        delete img[img.size()-1];
-        img.pop_back();
-        delete fbo[fbo.size()-1];
-        fbo.pop_back();
-        delete warper[warper.size()-1];
-        warper.pop_back();
-        
-        mouseCount -= 3;
-    }
     
     if (key == 'e') {
         lx.clear();

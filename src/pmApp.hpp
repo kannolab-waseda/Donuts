@@ -53,9 +53,7 @@ public:
     vector<int> ww;
     vector<int> hh;
     int mouseCount;
-    //ここにプロジェクションマッピング用変数，関数を追加
     shared_ptr<ofApp> of;
-    
 };
 
 
