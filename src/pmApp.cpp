@@ -12,7 +12,7 @@ void pmApp::setup(){
     ofBackground(255, 255, 255);
     ofSetFrameRate( 60 );
     
-    detected=false;
+    detected = false;
     display = false;
     drawLine = true;
     recipe.load("Image/recipeNoWord.jpg");
@@ -32,6 +32,8 @@ void pmApp::setup(){
     
     goalX=1000;
     goalY=500;
+    
+    mouseCount = 0;//初期化
 }
 
 void pmApp::update(){
@@ -41,7 +43,6 @@ void pmApp::update(){
 }
 
 void pmApp::draw(){
-    ofPushStyle();
     //この中にマッピングされる側のコードを書く
     ofBackground(255);
     recipe.draw(100,100);
@@ -63,21 +64,26 @@ void pmApp::draw(){
         }
         text[i].draw(posX[i],posY[i],textWidth[i],textHeight[i]);
     }
+    
     ofDisableAlphaBlending();
     //ここまで
     ofSetColor(100);
     ofNoFill();
     
-    for (int i=0; i<img.size(); i++) {
-        img[i]->grabScreen(lx[i], ly[i], ww[i], hh[i]);
-        if(drawLine){
-            ofDrawRectangle(lx[i], ly[i], ww[i], hh[i]);
+    if(!img.empty()) {
+        for (int i=0; i<img.size(); i++) {
+            img[i]->grabScreen(lx[i], ly[i], ww[i], hh[i]);
+            if(drawLine){
+                ofDrawRectangle(lx[i], ly[i], ww[i], hh[i]);
+            }
         }
     }
-    
+
     ofSetColor(255, 255, 255);
     
+    //射影範囲を切り抜いた後
     if (display) {
+        ofPushStyle();
         ofBackground(255, 255, 255);
         
         for (int i=0; i<img.size(); i++) {
@@ -103,8 +109,9 @@ void pmApp::draw(){
             ofSetColor(255);
             
         }
+        ofPopStyle();
     }
-    ofPopStyle();
+
 }
 
 //--------------------------------------------------------------
@@ -152,8 +159,11 @@ void pmApp::keyPressed(int key){
 
 
 //--------------------------------------------------------------
-void pmApp::mousePressed(int x, int y, int button){
+void pmApp::mouseReleased(int x, int y, int button){
+//    これは射影の範囲を複数生成する仕様だがそれでいい？？
+//    射影範囲は１つで十分？？
     
+    //mousePressedよりreleasedの方がより意図した判定になると思うので移動した
     if (!display) {
         if (mouseCount % 3 == 0) {
             lx.push_back(mouseX);
