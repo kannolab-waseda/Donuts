@@ -11,29 +11,32 @@ void pmApp::setup(){
     ofSetWindowPosition(1441, 0);
     ofBackground(255, 255, 255);
     ofSetFrameRate( 60 );
+    ofSetVerticalSync(true);
+    ofEnableSmoothing();
     
-    detected = false;
-    display = false;
-    drawLine = true;
     recipe.load("Image/recipeNoWord.jpg");
+    textHeight = 40;
+    char fileName[255];
     for(int i=0;i<4;i++){
         sprintf(fileName,"Image/text%d.png",i);
         text[i].load(fileName);
+        textWidth[i] = text[i].getWidth();
     }
-    for(int i=0;i<4;i++){
-        posX[i]=380;
-        posY[i]=335+88*i;
-        textHeight[i]=40;
-    }
-    textWidth[0]=346;
-    textWidth[1]=468;
-    textWidth[2]=436;
-    textWidth[3]=485;
     
-    goalX=1000;
-    goalY=500;
+    int x = (ofGetWidth() - recipe.getWidth()) * 0.5;       // center on screen.
+    int y = (ofGetHeight() - recipe.getHeight()) * 0.5;     // center on screen.
+    int w = recipe.getWidth();
+    int h = recipe.getHeight();
     
-    mouseCount = 0;//初期化
+    fbo.allocate(w, h);
+    
+    warper.setSourceRect(ofRectangle(0, 0, w, h));
+    warper.setTopLeftCornerPosition(ofPoint(x, y));
+    warper.setTopRightCornerPosition(ofPoint(x + w, y));
+    warper.setBottomLeftCornerPosition(ofPoint(x, y + h));
+    warper.setBottomRightCornerPosition(ofPoint(x + w, y + h));
+    warper.setup();
+    
 }
 
 void pmApp::update(){
@@ -43,166 +46,58 @@ void pmApp::update(){
 }
 
 void pmApp::draw(){
-    //この中にマッピングされる側のコードを書く
-    ofBackground(255);
-    recipe.draw(100,100);
-    ofEnableAlphaBlending();
+    ofSetColor(255);
+    
+    //======================== fboに描画
+    
+    fbo.begin();
+    recipe.draw(0, 0);
     for(int i=0;i<4;i++){
-        if(detected){
-            if(posX[i]!=goalX){
-                posX[i]+=distanceX[i]*0.01;
-            }
-            if(posY[i]!=goalY){
-                posY[i]+=distanceY[i]*0.01;
-            }
-            if(textWidth[i]>0){
-                textWidth[i]-=5;
-            }
-            if(textHeight[i]>0){
-                textHeight[i]-=0.5;
-            }
-        }
-        text[i].draw(posX[i],posY[i],textWidth[i],textHeight[i]);
+        text[i].draw(280,235+90*i);
     }
+    fbo.end();
     
-    ofDisableAlphaBlending();
-    //ここまで
-    ofSetColor(100);
-    ofNoFill();
+    ofMatrix4x4 mat = warper.getMatrix();
     
-    if(!img.empty()) {
-        for (int i=0; i<img.size(); i++) {
-            img[i]->grabScreen(lx[i], ly[i], ww[i], hh[i]);
-            if(drawLine){
-                ofDrawRectangle(lx[i], ly[i], ww[i], hh[i]);
-            }
-        }
-    }
-
-    ofSetColor(255, 255, 255);
+    ofPushMatrix();
+    ofMultMatrix(mat);
+    fbo.draw(0, 0);
+    ofPopMatrix();
     
-    //射影範囲を切り抜いた後
-    if (display) {
-        ofPushStyle();
-        ofBackground(255, 255, 255);
+    //======================== use the matrix to transform points.
+    
+    ofSetLineWidth(2);
+    ofSetColor(ofColor::cyan);
+    
+    for(int i=0; i<9; i++) {
+        int j = i + 1;
         
-        for (int i=0; i<img.size(); i++) {
-            
-            fbo[i]->begin();{
-                img[i]->draw(0, 0);
-            }
-            fbo[i]->end();
-            
-            ofMatrix4x4 mat = warper[i]->getMatrix();
-            
-            glPushMatrix();
-            glMultMatrixf(mat.getPtr());
-            {
-                fbo[i]->draw(0, 0);
-            }
-            glPopMatrix();
-            
-            ofSetColor(100, 100, 100);
-            ofSetLineWidth(2);
-            warper[i]->draw();
-            
-            ofSetColor(255);
-            
-        }
-        ofPopStyle();
+        ofVec3f p1 = mat.preMult(ofVec3f(points[i].x, points[i].y, 0));
+        ofVec3f p2 = mat.preMult(ofVec3f(points[j].x, points[j].y, 0));
+        
+        ofDrawLine(p1.x, p1.y, p2.x, p2.y);
     }
+    
+    //======================== draw quad warp ui.
+    
+    ofSetColor(ofColor::magenta);
+    warper.drawQuadOutline();
+    
+    ofSetColor(ofColor::yellow);
+    warper.drawCorners();
+    
+    ofSetColor(ofColor::magenta);
+    warper.drawHighlightedCorner();
+    
+    ofSetColor(ofColor::red);
+    warper.drawSelectedCorner();
 
 }
 
 //--------------------------------------------------------------
 void pmApp::keyPressed(int key){
-    if(!detected && key == 'q'){
-        detected = true;
-        for(int i=0;i<4;i++){
-            distanceX[i] = goalX-posX[i];
-            distanceY[i] = goalY-posY[i];
-        }
-    }
-    if( key == 'a' ){
-        if (display) {
-            display = false;
-        }else{
-            display = true;
-        }
-        
-    }
-    
-    if (key == 'f')
-    {
-        ofToggleFullscreen();
-    }
-    
-    
-    if (key == 'e') {
-        lx.clear();
-        ly.clear();
-        ww.clear();
-        hh.clear();
-        for (int i=0; i<img.size(); i++) {
-            delete img[i];
-            delete fbo[i];
-            delete warper[i];
-        }
-        img.clear();
-        fbo.clear();
-        warper.clear();
-        
-        mouseCount = 0;
-    }
-    
-}
-
-
-//--------------------------------------------------------------
-void pmApp::mouseReleased(int x, int y, int button){
-//    これは射影の範囲を複数生成する仕様だがそれでいい？？
-//    射影範囲は１つで十分？？
-    
-    //mousePressedよりreleasedの方がより意図した判定になると思うので移動した
-    if (!display) {
-        if (mouseCount % 3 == 0) {
-            lx.push_back(mouseX);
-            ly.push_back(mouseY);
-            ww.push_back(0);
-            hh.push_back(0);
-        }else if(mouseCount % 3 == 1){
-            ww[mouseCount/3] = mouseX - lx[mouseCount/3];
-            if (mouseX - lx[mouseCount/3] < 0) {
-                lx[mouseCount/3] += ww[mouseCount/3];
-                ww[mouseCount/3] *= -1;
-            }
-        }else{
-            hh[mouseCount/3] = mouseY - ly[mouseCount/3];
-            if (mouseY - ly[mouseCount/3] < 0) {
-                ly[mouseCount/3] += hh[mouseCount/3];
-                hh[mouseCount/3] *= -1;
-            }
-            
-            img.push_back(new ofImage);
-            img[mouseCount/3]->grabScreen(lx[mouseCount/3], ly[mouseCount/3], ww[mouseCount/3], hh[mouseCount/3]);
-            
-            
-            ofxQuadWarp kariWarper;
-            warper.push_back(new ofxQuadWarp);
-            
-            ofFbo kariFbo;
-            fbo.push_back(new ofFbo);
-            
-            fbo[mouseCount/3]->allocate(ww[mouseCount/3], hh[mouseCount/3]);
-            warper[mouseCount/3]->setSourceRect(ofRectangle(0, 0, ww[mouseCount/3], hh[mouseCount/3]));
-            warper[mouseCount/3]->setTopLeftCornerPosition(ofPoint(lx[mouseCount/3], ly[mouseCount/3]));
-            warper[mouseCount/3]->setTopRightCornerPosition(ofPoint(lx[mouseCount/3] + ww[mouseCount/3], ly[mouseCount/3]));
-            warper[mouseCount/3]->setBottomLeftCornerPosition(ofPoint(lx[mouseCount/3], ly[mouseCount/3] + hh[mouseCount/3]));
-            warper[mouseCount/3]->setBottomRightCornerPosition(ofPoint(lx[mouseCount/3] + ww[mouseCount/3], ly[mouseCount/3] + hh[mouseCount/3]));
-            warper[mouseCount/3]->setup();
-            
-        }
-        mouseCount++;
+   
+    if(key == 's' || key == 'S') {
+        warper.toggleShow();
     }
 }
-
