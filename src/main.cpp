@@ -24,7 +24,7 @@ int main( ){
     shared_ptr<pmApp> PmApp(new pmApp);
     PmApp->of = mainApp;
     
-    ofRunApp(pmWindow, PmApp);
     ofRunApp(mainWindow, mainApp);
+    ofRunApp(pmWindow, PmApp);
     ofRunMainLoop();
 }

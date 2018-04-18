@@ -9,8 +9,6 @@
 #define pmApp_hpp
 
 #include "ofMain.h"
-#include "hough_circle.h"
-#include "ofApp.h"
 #include "ofxQuadWarp.h"
 
 class ofApp;
