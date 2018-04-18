@@ -26,11 +26,10 @@ public:
     ofxQuadWarp warper;
     
     ofImage recipe;
-    ofImage text[4];
+    ofImage message;
     ofFbo fbo;
     ofPoint points[10];
-    int textWidth[4];
-    int textHeight;
+    bool expand;
     shared_ptr<ofApp> of;
 };
 

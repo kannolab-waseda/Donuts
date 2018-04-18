@@ -14,14 +14,7 @@ void pmApp::setup(){
     ofSetVerticalSync(true);
     ofEnableSmoothing();
     
-    recipe.load("Image/recipeNoWord.jpg");
-    textHeight = 40;
-    char fileName[255];
-    for(int i=0;i<4;i++){
-        sprintf(fileName,"Image/text%d.png",i);
-        text[i].load(fileName);
-        textWidth[i] = text[i].getWidth();
-    }
+    recipe.load("Image/recipe.jpg");
     
     int x = (ofGetWidth() - recipe.getWidth()) * 0.5;       // center on screen.
     int y = (ofGetHeight() - recipe.getHeight()) * 0.5;     // center on screen.
@@ -52,16 +45,15 @@ void pmApp::draw(){
     
     fbo.begin();
     recipe.draw(0, 0);
-    for(int i=0;i<4;i++){
-        text[i].draw(280,235+90*i);
-    }
     fbo.end();
     
     ofMatrix4x4 mat = warper.getMatrix();
     
     ofPushMatrix();
     ofMultMatrix(mat);
+    if(!expand){
     fbo.draw(0, 0);
+    }
     ofPopMatrix();
     
     //======================== use the matrix to transform points.
@@ -77,7 +69,7 @@ void pmApp::draw(){
         
         ofDrawLine(p1.x, p1.y, p2.x, p2.y);
     }
-    
+
     //======================== draw quad warp ui.
     
     ofSetColor(ofColor::magenta);
@@ -97,7 +89,14 @@ void pmApp::draw(){
 //--------------------------------------------------------------
 void pmApp::keyPressed(int key){
    
-    if(key == 's' || key == 'S') {
+    if(key == 's') {
         warper.toggleShow();
+    }
+    if(key == 'z'){
+        if(!expand){
+        expand = true;
+        }else{
+            expand=false;
+        }
     }
 }
