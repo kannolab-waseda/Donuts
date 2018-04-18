@@ -20,23 +20,23 @@ void hough_circle::setup(){
     cTimer = 0;
     dTimer = 0;
     cSwitch = false;
+    storage = cvCreateMemStorage (0);
 }
 
 //--------------------------------------------------------------
 void hough_circle::update(){
     camera.update();
-    src_img = cvQueryFrame(cap);
-    gray_img = cvCreateImage(cvGetSize(src_img), IPL_DEPTH_8U, 1);
+    IplImage *src_img = cvQueryFrame(cap);
+    IplImage *gray_img = cvCreateImage(cvGetSize(cvQueryFrame(cap)), IPL_DEPTH_8U, 1);
     cvCvtColor(src_img, gray_img,CV_BGR2GRAY);
     cvSmooth(gray_img, gray_img, CV_GAUSSIAN, 11, 11, 0,0);
-    storage = cvCreateMemStorage (0);
     circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 30, 80, 20,25);
     
     int resetTime = 5;
     int dMax = 2;  //dMax秒以上円が検出されないとタイマーリセット
     int sMin = 3;  //sMin秒以上断続的に円が検出され続けるとスイッチをオンにする
     if (cSwitch == false) {
-    if(circles->total == 1){
+     if(circles->total == 1){
         int now = ofGetElapsedTimef();
         if (now - cTimer > resetTime) {
             cTimer = ofGetElapsedTimef();
@@ -45,15 +45,15 @@ void hough_circle::update(){
             cTimer = 0;
         }
         
-    }else{
+     }else{
         int now = ofGetElapsedTimef();
         if (now-cTimer > dMax) {
             cTimer = 0;
         }
       
+     }
     }
-    }
-    
+    cvReleaseImage(&gray_img);
 }
 
 //--------------------------------------------------------------
