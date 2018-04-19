@@ -13,9 +13,13 @@ void pmApp::setup(){
     ofSetFrameRate( 60 );
     ofSetVerticalSync(true);
     ofEnableSmoothing();
+    showRecipeText = false;
+    movingPoint = 0;
     
-    recipe.load("Image/recipe.jpg");
-    
+    recipe.load("Image/recipe.jpg");//背景
+    recipeText[0].load("Image/text0.png");//後から出すテキスト
+    recipeText[1].load("Image/text1.png");//後から出すテキスト
+
     int x = (ofGetWidth() - recipe.getWidth()) * 0.5;       // center on screen.
     int y = (ofGetHeight() - recipe.getHeight()) * 0.5;     // center on screen.
     int w = recipe.getWidth();
@@ -33,6 +37,9 @@ void pmApp::setup(){
 }
 
 void pmApp::update(){
+    if(showRecipeText){
+        movingPoint++;
+    }
     if(ofGetFrameNum()){
         return;
     }
@@ -45,6 +52,11 @@ void pmApp::draw(){
     
     fbo.begin();
     recipe.draw(0, 0);
+    if(showRecipeText){
+    //    std::cout << movingPoint << std::endl;
+        recipeText[0].draw(movingPoint, 0);
+        recipeText[1].draw(0, movingPoint);
+    }
     fbo.end();
     
     ofMatrix4x4 mat = warper.getMatrix();
@@ -99,4 +111,9 @@ void pmApp::keyPressed(int key){
             expand=false;
         }
     }
+    if(key == 'l') {
+        //後から出す画像のトリガー
+        showRecipeText = true;
+    }
+
 }

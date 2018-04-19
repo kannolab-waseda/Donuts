@@ -23,12 +23,14 @@ public:
     
     ofxQuadWarp warper;
     
-    ofImage recipe;
-    ofImage message;
+    ofImage recipe, recipeText[2];
+    bool showRecipeText;//後から出す画像のきっかけ
     ofFbo fbo;
     ofPoint points[10];
     bool expand;
     shared_ptr<ofApp> of;
+    
+    int movingPoint;//移動テスト用
 };
 
 
