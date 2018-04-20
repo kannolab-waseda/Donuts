@@ -28,6 +28,10 @@ public:
     ofFbo fbo;
     ofPoint points[10];
     bool expand;
+    int recipeX,recipeY;
+    int recipeSizeX,recipeSizeY;
+    int goalX,goalY;
+    
     shared_ptr<ofApp> of;
 };
 

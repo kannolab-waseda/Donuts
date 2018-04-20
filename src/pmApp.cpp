@@ -21,6 +21,9 @@ void pmApp::setup(){
     int w = recipe.getWidth();
     int h = recipe.getHeight();
     
+    recipeSizeX = w;
+    recipeSizeY = h;
+    
     fbo.allocate(w, h);
     
     warper.setSourceRect(ofRectangle(0, 0, w, h));
@@ -30,6 +33,8 @@ void pmApp::setup(){
     warper.setBottomRightCornerPosition(ofPoint(x + w, y + h));
     warper.setup();
     
+    goalX = 500;
+    goalY = 500;
 }
 
 void pmApp::update(){
@@ -49,12 +54,12 @@ void pmApp::draw(){
     
     ofMatrix4x4 mat = warper.getMatrix();
     
-    ofPushMatrix();
-    ofMultMatrix(mat);
     if(!expand){
-    fbo.draw(0, 0);
+        ofPushMatrix();
+        ofMultMatrix(mat);
+        fbo.draw(0, 0);
+        ofPopMatrix();
     }
-    ofPopMatrix();
     
     //======================== use the matrix to transform points.
     
@@ -88,7 +93,6 @@ void pmApp::draw(){
 
 //--------------------------------------------------------------
 void pmApp::keyPressed(int key){
-   
     if(key == 's') {
         warper.toggleShow();
     }
@@ -98,5 +102,9 @@ void pmApp::keyPressed(int key){
         }else{
             expand=false;
         }
+    }
+    if (key == 'f')
+    {
+        ofToggleFullscreen();
     }
 }
