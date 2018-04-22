@@ -13,10 +13,13 @@ void pmApp::setup(){
     ofSetFrameRate( 60 );
     ofSetVerticalSync(true);
     ofEnableSmoothing();
+    ofEnableAlphaBlending();
+    alpha=255;
     showRecipeText = false;
     movingPoint = 0;
     
     recipe.load("Image/recipe.jpg");//背景
+    message.load("Image/recipe.jpg");
     recipeText[0].load("Image/text0.png");//後から出すテキスト
     recipeText[1].load("Image/text1.png");//後から出すテキスト
 
@@ -25,10 +28,11 @@ void pmApp::setup(){
     int w = recipe.getWidth();
     int h = recipe.getHeight();
     
+    
+    recipeFbo.allocate(w, h);
+    messageFbo.allocate(w, h);//後でメッセージの縦横に直す
     recipeSizeX = w;
     recipeSizeY = h;
-    
-    fbo.allocate(w, h);
     
     warper.setSourceRect(ofRectangle(0, 0, w, h));
     warper.setTopLeftCornerPosition(ofPoint(x, y));
@@ -37,8 +41,8 @@ void pmApp::setup(){
     warper.setBottomRightCornerPosition(ofPoint(x + w, y + h));
     warper.setup();
     
-    goalX = 500;
-    goalY = 500;
+    goalX = 500;//cvRound(hCircle.p[0]);
+    goalY = 500;//cvRound(hCircle.p[1]);
 }
 
 void pmApp::update(){
@@ -55,23 +59,37 @@ void pmApp::draw(){
     
     //======================== fboに描画
     
-    fbo.begin();
+    recipeFbo.begin();
     recipe.draw(0, 0);
-    if(showRecipeText){
-    //    std::cout << movingPoint << std::endl;
-        recipeText[0].draw(movingPoint, 0);
-        recipeText[1].draw(0, movingPoint);
-    }
-    fbo.end();
+    recipeFbo.end();
+    
+    messageFbo.begin();
+    message.draw(0,0);
+    messageFbo.end();
     
     ofMatrix4x4 mat = warper.getMatrix();
-    
-    if(!expand){
-        ofPushMatrix();
-        ofMultMatrix(mat);
-        fbo.draw(0, 0);
-        ofPopMatrix();
+    ofPushMatrix();
+    ofMultMatrix(mat);
+    if(hCircle.cSwitch||showRecipeText){
+        if(recipeX != goalX && recipeY != goalY){
+            recipeX+=(goalX-recipeX);
+            recipeY+=(goalY-recipeY);
+            recipeSizeX-=recipeSizeX/abs(recipeX-goalX);
+            recipeSizeY-=recipeSizeY/abs(recipeY-goalY);
+            recipeFbo.draw(recipeX,recipeY,recipeSizeX,recipeSizeY);
+        }else{
+            messageFbo.draw(0,0);
+            ofSetColor(255, 255, 255,alpha);
+            ofDrawRectangle(0, 0, message.getWidth(), message.getHeight());
+            alpha-=3;
+        }
+        //    std::cout << movingPoint << std::endl;
+        //  recipeText[0].draw(movingPoint, 0);
+        // recipeText[1].draw(0, movingPoint);
+    }else{
+        recipeFbo.draw(0, 0);
     }
+    ofPopMatrix();
     
     //======================== use the matrix to transform points.
     
@@ -108,23 +126,12 @@ void pmApp::keyPressed(int key){
     if(key == 's') {
         warper.toggleShow();
     }
-    if(key == 'z'){
-        if(!expand){
-        expand = true;
-        }else{
-            expand=false;
-        }
-    }
-<<<<<<< HEAD
     if (key == 'f')
     {
         ofToggleFullscreen();
     }
-=======
     if(key == 'l') {
         //後から出す画像のトリガー
         showRecipeText = true;
     }
-
->>>>>>> 48a7a6dcad3822e871d9ebb408885046c037631c
 }

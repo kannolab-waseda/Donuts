@@ -10,6 +10,7 @@
 
 #include "ofMain.h"
 #include "ofxQuadWarp.h"
+#include "hough_circle.h"
 
 class ofApp;
 class pmApp: public ofBaseApp {
@@ -23,14 +24,16 @@ public:
     
     ofxQuadWarp warper;
     
-    ofImage recipe, recipeText[2];
+    ofImage recipe, message,recipeText[2];
     bool showRecipeText;//後から出す画像のきっかけ
-    ofFbo fbo;
+    ofFbo recipeFbo;
+    ofFbo messageFbo;
     ofPoint points[10];
-    bool expand;
+    hough_circle hCircle;
     int recipeX,recipeY;
     int recipeSizeX,recipeSizeY;
     int goalX,goalY;
+    float alpha;
     
     shared_ptr<ofApp> of;
     
