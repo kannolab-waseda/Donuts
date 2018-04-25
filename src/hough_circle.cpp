@@ -8,12 +8,15 @@
 #include "hough_circle.h"
 //--------------------------------------------------------------
 void hough_circle::setup(){
-    camera.setDeviceID(0);  //カメラデバイスの設定　内蔵カメラを使用するときは0，USBカメラなどを外部機器使うときは1
-    camera.setVerbose(true);
+    cameraDeviceId = 0;//コンソールのDeviceを見て、idを指定
     w = 640;
     h = 480;
+
+    camera.setVerbose(true);
+    camera.listDevices();//コンソールに認識されているカメラDeviceを表示
     camera.setup(w, h);
-    cap = cvCreateCameraCapture(0);//setDeviceIDの引数と同じ
+    camera.setDeviceID(cameraDeviceId); //カメラデバイスの設定
+    cap = cvCreateCameraCapture(cameraDeviceId);//setDeviceIDの引数と同じ
     
     cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_WIDTH,w);
     cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_HEIGHT, h);

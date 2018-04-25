@@ -24,6 +24,7 @@ public:
     int i;
     float *p;
     double w, h;
+    int cameraDeviceId;
     ofVideoGrabber camera;
     ofTexture tex;
     unsigned char *pix;
