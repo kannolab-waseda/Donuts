@@ -24,20 +24,20 @@ public:
     
     ofxQuadWarp warper;
     
-    ofImage recipe, message,recipeText[2];
+    ofImage recipe, message;
     bool showRecipeText;//後から出す画像のきっかけ
     ofFbo recipeFbo;
     ofFbo messageFbo;
     ofPoint points[10];
     hough_circle hCircle;
-    int recipeX,recipeY;
-    int recipeSizeX,recipeSizeY;
-    int goalX,goalY;
+    ofVec2f recipePos;
+    ofVec2f recipeVerocity;
+    ofVec2f recipeSize;
+    ofVec2f goalPos;
     float alpha;
+    int timer;
     
     shared_ptr<ofApp> of;
-    
-    int movingPoint;//移動テスト用
 };
 
 

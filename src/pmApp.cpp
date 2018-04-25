@@ -16,12 +16,10 @@ void pmApp::setup(){
     ofEnableAlphaBlending();
     alpha=255;
     showRecipeText = false;
-    movingPoint = 0;
+    timer = 0;
     
-    recipe.load("Image/recipe.jpg");//背景
-    message.load("Image/recipe.jpg");
-    recipeText[0].load("Image/text0.png");//後から出すテキスト
-    recipeText[1].load("Image/text1.png");//後から出すテキスト
+    recipe.load("Image/recipe.jpg");//レシピ
+    message.load("Image/message.jpg");//メッセージ
 
     int x = (ofGetWidth() - recipe.getWidth()) * 0.5;       // center on screen.
     int y = (ofGetHeight() - recipe.getHeight()) * 0.5;     // center on screen.
@@ -30,9 +28,11 @@ void pmApp::setup(){
     
     
     recipeFbo.allocate(w, h);
-    messageFbo.allocate(w, h);//後でメッセージの縦横に直す
-    recipeSizeX = w;
-    recipeSizeY = h;
+    messageFbo.allocate(w, h);
+    recipePos = ofVec2f(0,0);
+    recipeVerocity = ofVec2f(4,4);
+    recipeSize = ofVec2f(w,h);
+    goalPos = ofVec2f(500,500);//cvRound(hCircle.p[0])に変えたい;
     
     warper.setSourceRect(ofRectangle(0, 0, w, h));
     warper.setTopLeftCornerPosition(ofPoint(x, y));
@@ -40,14 +40,18 @@ void pmApp::setup(){
     warper.setBottomLeftCornerPosition(ofPoint(x, y + h));
     warper.setBottomRightCornerPosition(ofPoint(x + w, y + h));
     warper.setup();
-    
-    goalX = 500;//cvRound(hCircle.p[0]);
-    goalY = 500;//cvRound(hCircle.p[1]);
 }
 
 void pmApp::update(){
-    if(showRecipeText){
-        movingPoint++;
+    if(hCircle.cSwitch||showRecipeText){
+        timer++;
+        recipeVerocity+=0.6;
+        if(goalPos.x > recipePos.x && goalPos.y > recipePos.y){
+            recipePos += recipeVerocity;
+        }
+        if(recipeSize.x > 0 || recipeSize.y > 0){
+            recipeSize /= 1.2;
+        }
     }
     if(ofGetFrameNum()){
         return;
@@ -71,21 +75,14 @@ void pmApp::draw(){
     ofPushMatrix();
     ofMultMatrix(mat);
     if(hCircle.cSwitch||showRecipeText){
-        if(recipeX != goalX && recipeY != goalY){
-            recipeX+=(goalX-recipeX);
-            recipeY+=(goalY-recipeY);
-            recipeSizeX-=recipeSizeX/abs(recipeX-goalX);
-            recipeSizeY-=recipeSizeY/abs(recipeY-goalY);
-            recipeFbo.draw(recipeX,recipeY,recipeSizeX,recipeSizeY);
-        }else{
+        if(timer > 3*60){
             messageFbo.draw(0,0);
             ofSetColor(255, 255, 255,alpha);
             ofDrawRectangle(0, 0, message.getWidth(), message.getHeight());
-            alpha-=3;
+            alpha-=5;
+        }else{
+            recipeFbo.draw(recipePos.x,recipePos.y,recipeSize.x,recipeSize.y);
         }
-        //    std::cout << movingPoint << std::endl;
-        //  recipeText[0].draw(movingPoint, 0);
-        // recipeText[1].draw(0, movingPoint);
     }else{
         recipeFbo.draw(0, 0);
     }
