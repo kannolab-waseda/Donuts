@@ -32,7 +32,8 @@ void pmApp::setup(){
     recipePos = ofVec2f(0,0);
     recipeVerocity = ofVec2f(4,4);
     recipeSize = ofVec2f(w,h);
-    goalPos = ofVec2f(500,500);//cvRound(hCircle.p[0])に変えたい;
+    goalPos = ofVec2f(800,500);
+    //goalPos = ofVec2f(cvRound(hCircle.p[0]),cvRound(hCircle.p[1]));
     
     warper.setSourceRect(ofRectangle(0, 0, w, h));
     warper.setTopLeftCornerPosition(ofPoint(x, y));
@@ -50,7 +51,7 @@ void pmApp::update(){
             recipePos += recipeVerocity;
         }
         if(recipeSize.x > 0 || recipeSize.y > 0){
-            recipeSize /= 1.2;
+            recipeSize /= 1.15;
         }
     }
     if(ofGetFrameNum()){

@@ -11,6 +11,7 @@
 #include "ofMain.h"
 #include "ofxQuadWarp.h"
 #include "hough_circle.h"
+#include "ofxCv.h"
 
 class ofApp;
 class pmApp: public ofBaseApp {
@@ -36,6 +37,7 @@ public:
     ofVec2f goalPos;
     float alpha;
     int timer;
+    
     
     shared_ptr<ofApp> of;
 };
