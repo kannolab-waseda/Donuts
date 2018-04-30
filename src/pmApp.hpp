@@ -21,17 +21,17 @@ public:
     void update();
     void draw();
     void keyPressed(int key);
+    void resetPM();
     void exit();
     
     
     ofxQuadWarp warper;
     
     ofImage recipe, message;
-    bool showRecipeText;//後から出す画像のきっかけ
+    bool animationFrag;//後から出す画像のきっかけ
     ofFbo recipeFbo;
     ofFbo messageFbo;
     ofPoint points[10];
-    hough_circle hCircle;
     ofVec2f recipePos;
     ofVec2f recipeVerocity;
     ofVec2f recipeSize;

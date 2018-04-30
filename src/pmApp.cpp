@@ -15,7 +15,7 @@ void pmApp::setup(){
     ofEnableSmoothing();
     ofEnableAlphaBlending();
     alpha=255;
-    showRecipeText = false;
+    animationFrag = false;
     timer = 0;
     
     recipe.load("Image/recipe.jpg");//レシピ
@@ -32,7 +32,7 @@ void pmApp::setup(){
     recipePos = ofVec2f(0,0);
     recipeVerocity = ofVec2f(4,4);
     recipeSize = ofVec2f(w,h);
-    goalPos = ofVec2f(800,500);
+    goalPos = ofVec2f(900,600);
     //goalPos = ofVec2f(cvRound(hCircle.p[0]),cvRound(hCircle.p[1]));
     
     warper.setSourceRect(ofRectangle(0, 0, w, h));
@@ -45,7 +45,7 @@ void pmApp::setup(){
 }
 
 void pmApp::update(){
-    if(hCircle.cSwitch||showRecipeText){
+    if(animationFrag){
         timer++;
         recipeVerocity+=0.6;
         if(goalPos.x > recipePos.x && goalPos.y > recipePos.y){
@@ -63,7 +63,7 @@ void pmApp::update(){
 void pmApp::draw(){
     for(int i = 0;i<50;i++){
         ofSetColor(255, 190, 125, 1+5*i);
-        ofDrawEllipse(800, 500, 800-5*i, 500-5*i);
+        ofDrawEllipse(400, 550, 800-5*i, 500-5*i);
     }
     ofSetColor(255);
     //======================== fboに描画
@@ -79,10 +79,10 @@ void pmApp::draw(){
     ofMatrix4x4 mat = warper.getMatrix();
     ofPushMatrix();
     ofMultMatrix(mat);
-    if(hCircle.cSwitch||showRecipeText){
+    if(of->hCircle.cSwitch){
         if(timer > 3*60){
             messageFbo.draw(0,0);
-            ofSetColor(255, 255, 255,alpha);
+            ofSetColor(0, 0, 0,alpha);
             ofDrawRectangle(0, 0, message.getWidth(), message.getHeight());
             alpha-=5;
         }else{
@@ -138,6 +138,14 @@ void pmApp::keyPressed(int key){
     }
     if(key == 'l') {
         //後から出す画像のトリガー
-        showRecipeText = true;
+        animationFrag = true;
     }
+}
+void pmApp::resetPM(){
+    animationFrag = false;
+    recipePos = ofVec2f(0,0);
+    recipeVerocity = ofVec2f(4,4);
+    recipeSize = ofVec2f(recipe.getWidth(),recipe.getHeight());
+    timer = 0;
+    alpha = 255;
 }
