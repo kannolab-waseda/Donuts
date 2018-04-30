@@ -14,8 +14,8 @@ int main( ){
     settings.resizable = true;
     shared_ptr<ofAppBaseWindow> mainWindow = ofCreateWindow(settings);
     
-    settings.width = 1024;
-    settings.height = 768;
+    settings.width = 1280;//プロジェクターの縦 (720p)
+    settings.height = 720;//横
     settings.setPosition(ofVec2f(0,0));
     settings.resizable = false;
     shared_ptr<ofAppBaseWindow> pmWindow = ofCreateWindow(settings);
