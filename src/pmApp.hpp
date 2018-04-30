@@ -40,7 +40,7 @@ public:
     int timer;
     
     
-    shared_ptr<ofApp> of;
+    //shared_ptr<ofApp> of;
 };
 
 

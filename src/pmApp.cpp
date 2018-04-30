@@ -45,7 +45,8 @@ void pmApp::setup(){
 }
 
 void pmApp::update(){
-    if(hCircle.cSwitch||showRecipeText){
+    if(showRecipeText){
+        //アニメーションの動作
         timer++;
         recipeVerocity+=0.6;
         if(goalPos.x > recipePos.x && goalPos.y > recipePos.y){
@@ -79,7 +80,8 @@ void pmApp::draw(){
     ofMatrix4x4 mat = warper.getMatrix();
     ofPushMatrix();
     ofMultMatrix(mat);
-    if(hCircle.cSwitch||showRecipeText){
+    if(showRecipeText){
+        //アニメーション
         if(timer > 3*60){
             messageFbo.draw(0,0);
             ofSetColor(255, 255, 255,alpha);
