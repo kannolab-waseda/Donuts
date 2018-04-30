@@ -41,6 +41,7 @@ void pmApp::setup(){
     warper.setBottomLeftCornerPosition(ofPoint(x, y + h));
     warper.setBottomRightCornerPosition(ofPoint(x + w, y + h));
     warper.setup();
+    warper.load();
 }
 
 void pmApp::update(){
@@ -118,11 +119,15 @@ void pmApp::draw(){
     warper.drawSelectedCorner();
 
 }
+void pmApp::exit(){
+    warper.save();
+}
 
 //--------------------------------------------------------------
 void pmApp::keyPressed(int key){
     if(key == 's') {
         warper.toggleShow();
+        warper.save();
     }
     if (key == 'f')
     {
