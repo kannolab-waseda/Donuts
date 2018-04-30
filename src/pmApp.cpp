@@ -9,7 +9,7 @@
 
 void pmApp::setup(){
     ofSetWindowPosition(1441, 0);
-    ofBackground(255, 255, 255);
+    ofBackground(0, 0, 0);
     ofSetFrameRate( 60 );
     ofSetVerticalSync(true);
     ofEnableSmoothing();
