@@ -31,7 +31,7 @@ void soundMidi::setup() {
     touch = 0;
     polytouch = 0;
     
-    int frameRate = 30;
+    int frameRate = 60;
     ofSetFrameRate(frameRate);
     
     midiOut.sendPitchBend(channel, bend);
@@ -44,7 +44,7 @@ void soundMidi::setup() {
 //--------------------------------------------------------------
 void soundMidi::update() {
     if(executeCutOffFg) {
-        bend = bend - 100;
+        bend = bend - 400;
         if(bend < 0) {
             bend = 0;
             executeCutOffFg = false;

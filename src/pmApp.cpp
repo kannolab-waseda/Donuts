@@ -9,7 +9,7 @@
 
 void pmApp::setup(){
     ofSetWindowPosition(1441, 0);
-    ofBackground(255, 255, 255);
+    ofBackground(0, 0, 0);
     ofSetFrameRate( 60 );
     ofSetVerticalSync(true);
     ofEnableSmoothing();
@@ -46,6 +46,7 @@ void pmApp::setup(){
 
 void pmApp::update(){
     if(animationFrag){
+        //アニメーションの動作
         timer++;
         recipeVerocity+=0.6;
         if(goalPos.x > recipePos.x && goalPos.y > recipePos.y){
@@ -79,7 +80,8 @@ void pmApp::draw(){
     ofMatrix4x4 mat = warper.getMatrix();
     ofPushMatrix();
     ofMultMatrix(mat);
-    if(of->hCircle.cSwitch){
+    if(animationFrag){
+        //アニメーション
         if(timer > 3*60){
             messageFbo.draw(0,0);
             ofSetColor(0, 0, 0,alpha);

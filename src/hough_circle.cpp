@@ -33,23 +33,23 @@ void hough_circle::update(){
     IplImage *gray_img = cvCreateImage(cvGetSize(cvQueryFrame(cap)), IPL_DEPTH_8U, 1);
     cvCvtColor(src_img, gray_img,CV_BGR2GRAY);
     cvSmooth(gray_img, gray_img, CV_GAUSSIAN, 11, 11, 0,0);
-    circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 30, 80, 20,25);
+    circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 50, 65, 10,15);
     
-    int resetTime = 5;
-    int dMax = 2;  //dMax秒以上円が検出されないとタイマーリセット
-    int sMin = 3;  //sMin秒以上断続的に円が検出され続けるとスイッチをオンにする
+    int resetTime = 2000;//ms
+    int dMax = 1000;  //dMax[ms]以上円が検出されないとタイマーリセット
+    int sMin = 500;  //sMin[ms]以上断続的に円が検出され続けるとスイッチをオンにする
     if (cSwitch == false) {
      if(circles->total == 1){
-        int now = ofGetElapsedTimef();
+        int now = ofGetElapsedTimeMillis();
         if (now - cTimer > resetTime) {
-            cTimer = ofGetElapsedTimef();
+            cTimer = ofGetElapsedTimeMillis();
         }else if(now-cTimer>=sMin){
             cSwitch = true;
             cTimer = 0;
         }
         
      }else{
-        int now = ofGetElapsedTimef();
+        int now = ofGetElapsedTimeMillis();
         if (now-cTimer > dMax) {
             cTimer = 0;
         }

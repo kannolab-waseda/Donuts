@@ -22,7 +22,7 @@ int main( ){
 
     shared_ptr<ofApp> mainApp(new ofApp);
     shared_ptr<pmApp> PmApp(new pmApp);
-    PmApp->of = mainApp;
+    mainApp->pm = PmApp;
     
     ofRunApp(mainWindow, mainApp);
     ofRunApp(pmWindow, PmApp);

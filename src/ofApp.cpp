@@ -19,6 +19,7 @@ void ofApp::update(){
     if(hCircle.cSwitch && state == 0) {
         state = 1;
         sMidi.executeCutOff();
+        pm->animationFrag = true;
     }
 }
 
@@ -43,6 +44,7 @@ void ofApp::keyPressed(int key){
         state = 0;
         sMidi.stopCutOff();
         hCircle.resetHough();
+        pm->resetPM();
     }
 }
 
