@@ -32,29 +32,26 @@ void hough_circle::update(){
     IplImage *src_img = cvQueryFrame(cap);
     IplImage *gray_img = cvCreateImage(cvGetSize(cvQueryFrame(cap)), IPL_DEPTH_8U, 1);
     cvCvtColor(src_img, gray_img,CV_BGR2GRAY);
-    cvSmooth(gray_img, gray_img, CV_GAUSSIAN, 11, 11, 0,0);
-    circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 50, 65, 10,15);
+//    cvSmooth(gray_img, gray_img, CV_GAUSSIAN, 3, 3, 0,0);
+    circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 50, 65, 11,15);
     
     int resetTime = 2000;//ms
     int dMax = 1000;  //dMax[ms]以上円が検出されないとタイマーリセット
     int sMin = 500;  //sMin[ms]以上断続的に円が検出され続けるとスイッチをオンにする
     if (cSwitch == false) {
-     if(circles->total == 1){
         int now = ofGetElapsedTimeMillis();
-        if (now - cTimer > resetTime) {
-            cTimer = ofGetElapsedTimeMillis();
-        }else if(now-cTimer>=sMin){
-            cSwitch = true;
-            cTimer = 0;
+        if(circles->total == 1){
+            if (now - cTimer > resetTime) {
+                cTimer = ofGetElapsedTimeMillis();
+            }else if(now-cTimer>=sMin){
+                cSwitch = true;
+                cTimer = 0;
+            }
+         }else{
+            if (now-cTimer > dMax) {
+                cTimer = 0;
+            }
         }
-        
-     }else{
-        int now = ofGetElapsedTimeMillis();
-        if (now-cTimer > dMax) {
-            cTimer = 0;
-        }
-      
-     }
     }
     cvReleaseImage(&gray_img);
 }
@@ -72,6 +69,7 @@ void hough_circle::draw(){
         ofSetColor(255, 0, 0);
         ofNoFill();
         ofSetLineWidth(2);
+        std::cout << p[2] << std::endl;
         ofDrawCircle(cvRound(p[0]), cvRound(p[1]), cvRound(p[2]));
     }
    // printf("%d \n",circles->total);
