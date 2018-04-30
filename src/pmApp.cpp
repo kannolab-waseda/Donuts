@@ -30,9 +30,9 @@ void pmApp::setup(){
     recipeFbo.allocate(w, h);
     messageFbo.allocate(w, h);
     recipePos = ofVec2f(0,0);
-    recipeVerocity = ofVec2f(4,4);
+    recipeVerocity = ofVec2f(15,15);
     recipeSize = ofVec2f(w,h);
-    goalPos = ofVec2f(900,600);
+    goalPos = ofVec2f(1000,500);
     //goalPos = ofVec2f(cvRound(hCircle.p[0]),cvRound(hCircle.p[1]));
     
     warper.setSourceRect(ofRectangle(0, 0, w, h));
@@ -48,12 +48,13 @@ void pmApp::update(){
     if(animationFrag){
         //アニメーションの動作
         timer++;
-        recipeVerocity+=0.6;
-        if(goalPos.x > recipePos.x && goalPos.y > recipePos.y){
-            recipePos += recipeVerocity;
+        recipeVerocity+=2;
+        if(goalPos.x > recipePos.x || goalPos.y > recipePos.y){
+            recipePos.x += recipeVerocity.x*0.3;
+            recipePos.y += recipeVerocity.y;
         }
         if(recipeSize.x > 0 || recipeSize.y > 0){
-            recipeSize /= 1.15;
+            recipeSize /= 1.2;
         }
     }
     if(ofGetFrameNum()){
@@ -64,7 +65,7 @@ void pmApp::update(){
 void pmApp::draw(){
     for(int i = 0;i<50;i++){
         ofSetColor(255, 190, 125, 1+5*i);
-        ofDrawEllipse(400, 550, 800-5*i, 500-5*i);
+        ofDrawEllipse(550, 500, 800-5*i, 500-5*i);
     }
     ofSetColor(255);
     //======================== fboに描画
@@ -82,7 +83,7 @@ void pmApp::draw(){
     ofMultMatrix(mat);
     if(animationFrag){
         //アニメーション
-        if(timer > 3*60){
+        if(timer > 2.2*60){
             messageFbo.draw(0,0);
             ofSetColor(0, 0, 0,alpha);
             ofDrawRectangle(0, 0, message.getWidth(), message.getHeight());
@@ -146,7 +147,7 @@ void pmApp::keyPressed(int key){
 void pmApp::resetPM(){
     animationFrag = false;
     recipePos = ofVec2f(0,0);
-    recipeVerocity = ofVec2f(4,4);
+    recipeVerocity = ofVec2f(15,15);
     recipeSize = ofVec2f(recipe.getWidth(),recipe.getHeight());
     timer = 0;
     alpha = 255;

@@ -20,7 +20,7 @@ void ofApp::update(){
         state = 1;
         sMidi.executeCutOff();
         pm->animationFrag = true;
-        pm->goalPos = ofVec2f(hCircle.p[0], hCircle.p[1]);
+        //pm->goalPos = ofVec2f(hCircle.p[0], hCircle.p[1]);
     }
 }
 
