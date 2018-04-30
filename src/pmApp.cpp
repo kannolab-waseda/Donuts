@@ -61,8 +61,11 @@ void pmApp::update(){
 }
 
 void pmApp::draw(){
+    for(int i = 0;i<50;i++){
+        ofSetColor(255, 190, 125, 1+5*i);
+        ofDrawEllipse(800, 500, 800-5*i, 500-5*i);
+    }
     ofSetColor(255);
-    
     //======================== fboに描画
     
     recipeFbo.begin();
