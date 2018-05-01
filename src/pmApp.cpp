@@ -14,12 +14,10 @@ void pmApp::setup(){
     ofSetVerticalSync(true);
     ofEnableSmoothing();
     ofEnableAlphaBlending();
-    alpha=255;
     animationFrag = false;
     timer = 0;
     
     recipe.load("Image/recipe.jpg");//レシピ
-    message.load("Image/message.jpg");//メッセージ
 
     int x = (ofGetWidth() - recipe.getWidth()) * 0.5;       // center on screen.
     int y = (ofGetHeight() - recipe.getHeight()) * 0.5;     // center on screen.
@@ -28,7 +26,12 @@ void pmApp::setup(){
     
     
     recipeFbo.allocate(w, h);
-    messageFbo.allocate(w, h);
+    for(int i=0;i<5;i++){
+        sprintf(filename, "Image/message%d.jpg",i);
+        message[i].load(filename);//メッセージ
+        messageFbo[i].allocate(w, h);
+        alpha[i]=255;
+    }
     recipePos = ofVec2f(0,0);
     recipeVerocity = ofVec2f(15,15);
     recipeSize = ofVec2f(w,h);
@@ -74,25 +77,65 @@ void pmApp::draw(){
     recipe.draw(0, 0);
     recipeFbo.end();
     
-    messageFbo.begin();
-    message.draw(0,0);
-    messageFbo.end();
+    for(int i=0;i<5;i++){
+        messageFbo[i].begin();
+        message[i].draw(0,0);
+        messageFbo[i].end();
+    }
     
     ofMatrix4x4 mat = warper.getMatrix();
     ofPushMatrix();
     ofMultMatrix(mat);
     if(animationFrag){
         //アニメーション
-        if(timer > 2.2*60){
-            messageFbo.draw(0,0);
-            ofSetColor(0, 0, 0,alpha);
-            ofDrawRectangle(0, 0, message.getWidth(), message.getHeight());
-            alpha-=5;
+        if(timer > 2*60){ //レシピを順番に表示
+            if(timer < 5*60){
+                messageFbo[0].draw(0,0);
+                ofSetColor(0, 0, 0,alpha[0]);
+                ofDrawRectangle(0, 0, message[0].getWidth(), message[0].getHeight());
+                alpha[0]-=5;
+                if(timer > 3.5*60){
+                    alpha[0]+=10;
+                }
+            }else
+            if(timer < 8*60){
+                messageFbo[1].draw(0,0);
+                ofSetColor(0, 0, 0,alpha[1]);
+                ofDrawRectangle(0, 0, message[1].getWidth(), message[1].getHeight());
+                alpha[1]-=5;
+                if(timer > 6.5*60){
+                    alpha[1]+=10;
+                }
+            }else
+            if(timer < 11*60){
+                messageFbo[2].draw(0,0);
+                ofSetColor(0, 0, 0,alpha[2]);
+                ofDrawRectangle(0, 0, message[2].getWidth(), message[2].getHeight());
+                alpha[2]-=5;
+                if(timer > 9.5*60){
+                    alpha[2]+=10;
+                }
+            }else
+            if(timer < 14*60){
+                messageFbo[3].draw(0,0);
+                ofSetColor(0, 0, 0,alpha[3]);
+                ofDrawRectangle(0, 0, message[3].getWidth(), message[3].getHeight());
+                alpha[3]-=6;
+                if(timer > 12.5*60){
+                    alpha[3]+=12;
+                }
+            }else
+            {
+                messageFbo[4].draw(0,0);
+                ofSetColor(0, 0, 0,alpha[4]);
+                ofDrawRectangle(0, 0, message[4].getWidth(), message[4].getHeight());
+                alpha[4]-=6;
+            }
         }else{
-            recipeFbo.draw(recipePos.x,recipePos.y,recipeSize.x,recipeSize.y);
+            recipeFbo.draw(recipePos.x,recipePos.y,recipeSize.x,recipeSize.y); //吸い込まれ中
         }
     }else{
-        recipeFbo.draw(0, 0);
+        recipeFbo.draw(0, 0);//平常時
     }
     ofPopMatrix();
     
@@ -150,5 +193,7 @@ void pmApp::resetPM(){
     recipeVerocity = ofVec2f(15,15);
     recipeSize = ofVec2f(recipe.getWidth(),recipe.getHeight());
     timer = 0;
-    alpha = 255;
+    for(int i=0;i<5;i++){
+        alpha[i] = 255;
+    }
 }
