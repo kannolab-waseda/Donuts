@@ -10,7 +10,6 @@
 void pmApp::setup(){
     ofSetWindowPosition(1441, 0);
     ofBackground(0, 0, 0);
-    ofSetFrameRate( 60 );
     ofSetVerticalSync(true);
     ofEnableSmoothing();
     ofEnableAlphaBlending();
@@ -50,7 +49,9 @@ void pmApp::setup(){
 void pmApp::update(){
     if(animationFrag){
         //アニメーションの動作
-        timer++;
+        timer += ofGetLastFrameTime() ;//timerはアニメーションが起動してから経過した秒数
+        std::cout << "frameRate"<< ofGetFrameRate() << " timer" << timer << std::endl;
+
         recipeVerocity+=2;
         if(goalPos.x > recipePos.x || goalPos.y > recipePos.y){
             recipePos.x += recipeVerocity.x*0.3;
@@ -87,49 +88,35 @@ void pmApp::draw(){
     ofPushMatrix();
     ofMultMatrix(mat);
     if(animationFrag){
-        //アニメーション
-        if(timer > 2*60){ //レシピを順番に表示
-            if(timer < 5*60){
-                messageFbo[0].draw(0,0);
-                ofSetColor(0, 0, 0,alpha[0]);
-                ofDrawRectangle(0, 0, message[0].getWidth(), message[0].getHeight());
-                alpha[0]-=5;
-                if(timer > 3.5*60){
-                    alpha[0]+=10;
+    //アニメーション
+        if(5 < timer){ //レシピを順番に表示
+            if(5 < timer && timer <= 14){
+                showMessage(0);
+                if(13 < timer){
+                    hideMessage(0);
                 }
-            }else
-            if(timer < 8*60){
-                messageFbo[1].draw(0,0);
-                ofSetColor(0, 0, 0,alpha[1]);
-                ofDrawRectangle(0, 0, message[1].getWidth(), message[1].getHeight());
-                alpha[1]-=5;
-                if(timer > 6.5*60){
-                    alpha[1]+=10;
+            }
+            if(14 < timer && timer <= 23){
+                showMessage(1);
+                if(22 < timer){
+                    hideMessage(1);
+                
                 }
-            }else
-            if(timer < 11*60){
-                messageFbo[2].draw(0,0);
-                ofSetColor(0, 0, 0,alpha[2]);
-                ofDrawRectangle(0, 0, message[2].getWidth(), message[2].getHeight());
-                alpha[2]-=5;
-                if(timer > 9.5*60){
-                    alpha[2]+=10;
+            }
+            if(23 < timer && timer <= 32){
+                showMessage(2);
+                if(31 < timer){
+                    hideMessage(2);
                 }
-            }else
-            if(timer < 14*60){
-                messageFbo[3].draw(0,0);
-                ofSetColor(0, 0, 0,alpha[3]);
-                ofDrawRectangle(0, 0, message[3].getWidth(), message[3].getHeight());
-                alpha[3]-=6;
-                if(timer > 12.5*60){
-                    alpha[3]+=12;
+            }
+            if(32 < timer && timer <= 41){
+                showMessage(3);
+                if(40 < timer){
+                    hideMessage(3);
                 }
-            }else
-            {
-                messageFbo[4].draw(0,0);
-                ofSetColor(0, 0, 0,alpha[4]);
-                ofDrawRectangle(0, 0, message[4].getWidth(), message[4].getHeight());
-                alpha[4]-=6;
+            }
+            if(41 < timer){
+                showMessage(4);
             }
         }else{
             recipeFbo.draw(recipePos.x,recipePos.y,recipeSize.x,recipeSize.y); //吸い込まれ中
@@ -195,5 +182,21 @@ void pmApp::resetPM(){
     timer = 0;
     for(int i=0;i<5;i++){
         alpha[i] = 255;
+    }
+}
+
+void pmApp::showMessage(int messageNum){
+    messageFbo[messageNum].draw(0,0);
+    ofSetColor(0, 0, 0,alpha[messageNum]);
+    ofDrawRectangle(0, 0, message[messageNum].getWidth(), message[messageNum].getHeight());
+    
+    if(0 < alpha[messageNum]){
+        alpha[messageNum]-=15;
+    }
+}
+
+void pmApp::hideMessage(int messageNum){
+    if(alpha[messageNum] < 256){
+        alpha[messageNum]+=40;
     }
 }

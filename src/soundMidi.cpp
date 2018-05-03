@@ -30,10 +30,7 @@ void soundMidi::setup() {
     bend = cutOffFreqMax;
     touch = 0;
     polytouch = 0;
-    
-    int frameRate = 60;
-    ofSetFrameRate(frameRate);
-    
+        
     midiOut.sendPitchBend(channel, bend);
     executeCutOffFg = false;
     

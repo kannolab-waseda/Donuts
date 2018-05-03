@@ -69,7 +69,7 @@ void hough_circle::draw(){
         ofSetColor(255, 0, 0);
         ofNoFill();
         ofSetLineWidth(2);
-        std::cout << p[2] << std::endl;
+        std::cout << "diameter: " << p[2] << std::endl;
         ofDrawCircle(cvRound(p[0]), cvRound(p[1]), cvRound(p[2]));
     }
    // printf("%d \n",circles->total);

@@ -22,6 +22,8 @@ public:
     void draw();
     void keyPressed(int key);
     void resetPM();
+    void showMessage(int messageNum);
+    void hideMessage(int messageNum);
     void exit();
     
     
@@ -37,7 +39,7 @@ public:
     ofVec2f recipeSize;
     ofVec2f goalPos;
     float alpha[5];
-    int timer;
+    float timer;
     
     
     //shared_ptr<ofApp> of;
