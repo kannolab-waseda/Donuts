@@ -23,6 +23,12 @@ void ofApp::update(){
         pm->animationFrag = true;
         //pm->goalPos = ofVec2f(hCircle.p[0], hCircle.p[1]);
     }
+    
+    /*自動[60秒後]でアプリの状態を最初に戻す*/
+    if(60 < pm->timer) {
+        resetAllState();
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -43,10 +49,7 @@ void ofApp::keyPressed(int key){
     sMidi.keyPressed(key);
     //キー「0」で状態をリセット
     if(key == '0') {
-        state = 0;
-        sMidi.stopCutOff();
-        hCircle.resetHough();
-        pm->resetPM();
+        resetAllState();
     }
 }
 
@@ -98,4 +101,11 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void ofApp::resetAllState(){
+    state = 0;
+    sMidi.stopCutOff();
+    hCircle.resetHough();
+    pm->resetPM();
 }

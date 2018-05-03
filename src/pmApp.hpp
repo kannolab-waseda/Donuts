@@ -29,16 +29,16 @@ public:
     
     ofxQuadWarp warper;
     char filename[255];
-    ofImage recipe, message[5];
+    ofImage recipe, message[6];
     bool animationFrag;//後から出す画像のきっかけ
     ofFbo recipeFbo;
-    ofFbo messageFbo[5];
+    ofFbo messageFbo[6];
     ofPoint points[10];
     ofVec2f recipePos;
     ofVec2f recipeVerocity;
     ofVec2f recipeSize;
     ofVec2f goalPos;
-    float alpha[5];
+    float alpha[6];
     float timer;
     
     

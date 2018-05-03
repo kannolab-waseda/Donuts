@@ -25,7 +25,7 @@ void pmApp::setup(){
     
     
     recipeFbo.allocate(w, h);
-    for(int i=0;i<5;i++){
+    for(int i=0;i<6;i++){
         sprintf(filename, "Image/message%d.jpg",i);
         message[i].load(filename);//メッセージ
         messageFbo[i].allocate(w, h);
@@ -78,7 +78,7 @@ void pmApp::draw(){
     recipe.draw(0, 0);
     recipeFbo.end();
     
-    for(int i=0;i<5;i++){
+    for(int i=0;i<=5;i++){
         messageFbo[i].begin();
         message[i].draw(0,0);
         messageFbo[i].end();
@@ -87,40 +87,53 @@ void pmApp::draw(){
     ofMatrix4x4 mat = warper.getMatrix();
     ofPushMatrix();
     ofMultMatrix(mat);
-    if(animationFrag){
-    //アニメーション
-        if(5 < timer){ //レシピを順番に表示
-            if(5 < timer && timer <= 14){
-                showMessage(0);
-                if(13 < timer){
-                    hideMessage(0);
-                }
-            }
-            if(14 < timer && timer <= 23){
-                showMessage(1);
-                if(22 < timer){
-                    hideMessage(1);
-                
-                }
-            }
-            if(23 < timer && timer <= 32){
-                showMessage(2);
-                if(31 < timer){
-                    hideMessage(2);
-                }
-            }
-            if(32 < timer && timer <= 41){
-                showMessage(3);
-                if(40 < timer){
-                    hideMessage(3);
-                }
-            }
-            if(41 < timer){
-                showMessage(4);
-            }
-        }else{
-            recipeFbo.draw(recipePos.x,recipePos.y,recipeSize.x,recipeSize.y); //吸い込まれ中
+
+    if(animationFrag){//アニメーション
+        //吸い込まれ中
+        if(timer <= 5){
+            recipeFbo.draw(recipePos.x,recipePos.y,recipeSize.x,recipeSize.y);
         }
+        
+        //以下レシピを順番に表示
+        if(5 < timer && timer <= 14){
+            showMessage(0);
+            if(13 < timer){
+                hideMessage(0);
+            }
+        }
+        if(14 < timer && timer <= 23){
+            showMessage(1);
+            if(22 < timer){
+                hideMessage(1);
+            
+            }
+        }
+        if(23 < timer && timer <= 32){
+            showMessage(2);
+            if(31 < timer){
+                hideMessage(2);
+            }
+        }
+        if(32 < timer && timer <= 41){
+            showMessage(3);
+            if(40 < timer){
+                hideMessage(3);
+            }
+        }
+        if(41 < timer && timer <= 50){
+            showMessage(4);
+            if(49 < timer){
+                hideMessage(4);
+            }
+        }
+        if(50 < timer && timer <= 60){
+            showMessage(5);
+            if(59 < timer){
+                hideMessage(5);
+            }
+        }
+        /*アプリの状態を最初に戻す処理はofAppに記述してある*/
+        
     }else{
         recipeFbo.draw(0, 0);//平常時
     }
@@ -180,7 +193,7 @@ void pmApp::resetPM(){
     recipeVerocity = ofVec2f(15,15);
     recipeSize = ofVec2f(recipe.getWidth(),recipe.getHeight());
     timer = 0;
-    for(int i=0;i<5;i++){
+    for(int i=0;i<6;i++){
         alpha[i] = 255;
     }
 }

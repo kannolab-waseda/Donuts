@@ -32,6 +32,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
+    void resetAllState();
+    
     hough_circle hCircle;
     soundMidi sMidi;
     
