@@ -38,10 +38,12 @@ public:
     int pan, bend, touch, polytouch;
     
     /*自作*/
-    int executeCutOffFg;
+    bool executeCutOffFg;
+    bool turnDownVolumeFg;
+    bool stopCutOffFg;
+    bool turnUpVolumeFg;
     int cutOffFreqMax;
     int masterVolume;
-    int executeTurnDownVolumeFg;
     int masterVolumeMax;
     
     void executeCutOff();

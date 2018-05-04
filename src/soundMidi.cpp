@@ -33,35 +33,64 @@ void soundMidi::setup() {
         
     midiOut.sendPitchBend(channel, bend);
     executeCutOffFg = false;
-    
+    stopCutOffFg = false;
+
     masterVolume = masterVolumeMax;
-    executeTurnDownVolumeFg = false;
+    turnDownVolumeFg = false;
+    turnUpVolumeFg = false;
 }
 
 //--------------------------------------------------------------
 void soundMidi::update() {
+    /*カットオフ開始処理*/
     if(executeCutOffFg) {
-        bend = bend - 400;
+        bend -= 400;
         if(bend < 0) {
             bend = 0;
             executeCutOffFg = false;
-        } else if (16383 < bend) {
-            bend = 16383;
+        } else if (cutOffFreqMax < bend) {
+            bend = cutOffFreqMax;
             executeCutOffFg = false;
         } else {
             midiOut.sendPitchBend(channel, bend);
         }
     }
     
-    if(executeTurnDownVolumeFg) {
+    if(turnDownVolumeFg) {
         masterVolume--;
         if(masterVolume < 0) {
             masterVolume = 0;
-            executeTurnDownVolumeFg = true;
+            turnDownVolumeFg = false;
         } else {
             midiOut.sendControlChange(1,21, masterVolume);
         }
     }
+    /*カットオフ開始処理ここまで*/
+
+    /*カットオフ戻す処理*/
+    if(stopCutOffFg) {
+        bend += 1000;
+        if(cutOffFreqMax < bend) {
+            bend = cutOffFreqMax;
+            stopCutOffFg = false;
+        } else if (bend < 0){
+            bend = 0;
+            stopCutOffFg = false;
+        } else {
+            midiOut.sendPitchBend(channel, bend);    //カットオフ周波数を最大に戻す
+        }
+    }
+
+    if(turnUpVolumeFg) {
+        masterVolume += 3;
+        if(masterVolumeMax < masterVolume) {
+            masterVolume = 0;
+            turnUpVolumeFg = false;
+        } else {
+            midiOut.sendControlChange(1,21, masterVolume);
+        }
+    }
+    /*カットオフ戻す処理ここまで*/
 }
 
 //--------------------------------------------------------------
@@ -129,8 +158,8 @@ void soundMidi::mouseDragged(int x, int y, int button) {
     bend = ofMap(y, 0, ofGetHeight(), 0, MIDI_MAX_BEND);
     if(bend < 0) {
         bend = 0;
-    } else if (16383 < bend) {
-        bend = 16383;
+    } else if (cutOffFreqMax < bend) {
+        bend = cutOffFreqMax;
     }
     midiOut.sendPitchBend(channel, bend);//これをローパスのカットオフ周波数の制御に使う
 }
@@ -147,26 +176,27 @@ void soundMidi::mouseReleased() {
 /*カットオフを実行*/
 void soundMidi::executeCutOff() {
     //注意！この関数ではフラグを立てるだけで、実際の制御自体はupdate内でやっている。
-            printf("ok");
+    printf("cutOff");
     //カットオフする
     bend = cutOffFreqMax;
     executeCutOffFg = true;
-    
+    stopCutOffFg = false;
+
     //ボリュームも下げる
     masterVolume = masterVolumeMax;
-    executeTurnDownVolumeFg = true;
+    turnUpVolumeFg = true;
+    turnDownVolumeFg = false;
 }
 
 //カットオフ無しに変更
 void soundMidi::stopCutOff() {
-    //カットオフ周波数を最大に戻す
-    midiOut.sendPitchBend(channel, 16000);
     executeCutOffFg = false;
+    stopCutOffFg = true;
+    bend = 0;
     //    midiOut.sendControlChange(1, 84, 1);//カットオフ自体を戻す
     //追記：これは制御しなくてもオンオフになるっぽいからいいんじゃね
 
     //ボリュームを戻す
-    masterVolume = masterVolumeMax;
-    midiOut.sendControlChange(1,21, masterVolume);
-    executeTurnDownVolumeFg = false;
+    masterVolume = 0;
+    turnUpVolumeFg = false;
 }
