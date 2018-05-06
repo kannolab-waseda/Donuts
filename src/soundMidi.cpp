@@ -17,7 +17,7 @@ void soundMidi::setup() {
     midiOut.listPorts(); // via instance
     
     // connect
-    midiOut.openPort(1); // by number
+    midiOut.openPort(0); // by number
     
     cutOffFreqMax = 16383;
     masterVolumeMax = 90;

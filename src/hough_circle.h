@@ -23,7 +23,7 @@ public:
     
     int i;
     float *p;
-    double w, h;
+    int cameraWidth, cameraHeight;
     int cameraDeviceId;
     ofVideoGrabber camera;
     ofTexture tex;

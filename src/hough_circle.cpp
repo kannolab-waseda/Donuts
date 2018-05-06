@@ -8,18 +8,19 @@
 #include "hough_circle.h"
 //--------------------------------------------------------------
 void hough_circle::setup(){
-    cameraDeviceId = 0;//コンソールのDeviceを見て、idを指定
-    w = 640;
-    h = 480;
+    cameraDeviceId = 1;//コンソールのDeviceを見て、idを指定
+    cameraWidth = 640;
+    cameraHeight = 480;
 
+    camera.setDeviceID(cameraDeviceId); //カメラデバイスの設定
     camera.setVerbose(true);
     camera.listDevices();//コンソールに認識されているカメラDeviceを表示
-    camera.setup(w, h);
-    camera.setDeviceID(cameraDeviceId); //カメラデバイスの設定
+    camera.setup(cameraWidth, cameraHeight);
+
     cap = cvCreateCameraCapture(cameraDeviceId);//setDeviceIDの引数と同じ
     
-    cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_WIDTH,w);
-    cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_HEIGHT, h);
+    cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_WIDTH,cameraWidth);
+    cvSetCaptureProperty(cap, CV_CAP_PROP_FRAME_HEIGHT, cameraHeight);
     cTimer = 0;
     dTimer = 0;
     cSwitch = false;
@@ -33,11 +34,11 @@ void hough_circle::update(){
     IplImage *gray_img = cvCreateImage(cvGetSize(cvQueryFrame(cap)), IPL_DEPTH_8U, 1);
     cvCvtColor(src_img, gray_img,CV_BGR2GRAY);
 //    cvSmooth(gray_img, gray_img, CV_GAUSSIAN, 3, 3, 0,0);
-    circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 50, 65, 11,15);
+    circles = cvHoughCircles(gray_img, storage, CV_HOUGH_GRADIENT, 2, 150, 50, 62, 12,15);
     
     int resetTime = 2000;//ms
-    int dMax = 1000;  //dMax[ms]以上円が検出されないとタイマーリセット
-    int sMin = 500;  //sMin[ms]以上断続的に円が検出され続けるとスイッチをオンにする
+    int dMax = 800;  //dMax[ms]以上円が検出されないとタイマーリセット
+    int sMin = 300;  //sMin[ms]以上断続的に円が検出され続けるとスイッチをオンにする
     if (cSwitch == false) {
         int now = ofGetElapsedTimeMillis();
         if(circles->total == 1){
